@@ -1,0 +1,37 @@
+server:
+  port: ${PORT:8000}
+
+spring:
+  application:
+    name: tienda-backend
+  datasource:
+    # cambiar por los datos de su postgres (o poner las variables en Render)
+    url: ${DB_URL:jdbc:postgresql://localhost:5434/tienda}
+    username: ${DB_USER:postgres}
+    password: ${DB_PASSWORD:12345}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  security:
+    user:
+      name: admin
+      password: admin123
+      roles: ACTUATOR_ADMIN
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: always
+
+# url del frontend para el CORS (en Render poner la url del front de vue)
+app:
+  frontend-url: ${FRONTEND_URL:http://localhost:5173}
