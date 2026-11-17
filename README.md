@@ -1,33 +1,27 @@
-# tienda-backend
+# Ventas_Backend
 
 Microservicio hecho con **Spring Boot** y **PostgreSQL** para una tienda.
 Tiene dos modulos: **productos** y **ventas**.
 
-Basado en el ejemplo del profe: https://github.com/BanderoChinoZF/springboot_backend_store
+Repositorio del frontend: https://github.com/adanari08/Ventas_Frontend
 
 ## Tecnologias
-- Java 21
+- Java 17 o mas nuevo
 - Spring Boot 4 (Web, Data JPA, Validation, Security, Actuator)
 - PostgreSQL
 - Swagger (springdoc)
 
 ## Como correrlo
-
-1. Crear la base de datos en PostgreSQL y correr el script `database/tienda.sql`
-   (crea las tablas y mete datos de prueba):
-   ```
-   psql -U postgres -c "CREATE DATABASE tienda"
-   psql -U postgres -d tienda -f database/tienda.sql
-   ```
+1. Crear la base de datos `tienda` en PostgreSQL y correr el script `database/tienda.sql`
+   (crea las tablas y mete datos de prueba).
 2. Revisar los datos de conexion en `src/main/resources/application.yaml`
-   (por defecto usa `localhost:5432/tienda`, usuario `postgres`, contraseña `postgres`).
+   (url con el puerto de tu postgres, usuario y contraseña).
    Tambien se pueden mandar con variables de entorno: `DB_URL`, `DB_USER`, `DB_PASSWORD`.
 3. Correr el proyecto:
    ```
-   ./mvnw spring-boot:run        (en windows: mvnw.cmd spring-boot:run)
+   .\mvnw.cmd clean spring-boot:run
    ```
-   o darle Run a `TiendaApplication` desde IntelliJ.
-4. Abrir Swagger: http://localhost:8000/swagger-ui.html
+4. La API queda en http://localhost:8000
 
 ## Endpoints
 
@@ -67,13 +61,13 @@ El precio unitario y el total los calcula el backend con el precio del producto.
 - Si no existe el producto o la venta regresa 404.
 
 ## Pruebas
-- Pruebas unitarias en `src/test` (JUnit + Mockito, no ocupan base de datos):
+- **Pruebas de endpoints:** con el backend encendido correr
   ```
-  ./mvnw test
+  powershell -ExecutionPolicy Bypass -File .\postman\pruebas-endpoints.ps1
   ```
-- Coleccion de Postman en `postman/tienda.postman_collection.json` para probar todos los endpoints.
-
-## Subir a Render
-Crear un Web Service con Docker o con Java y poner las variables:
-`DB_URL` (formato `jdbc:postgresql://host:5432/basededatos`), `DB_USER`, `DB_PASSWORD`
-y `FRONTEND_URL` (la url del frontend en vue, para el CORS).
+  Hace 21 pruebas y guarda los resultados en `postman/resultados-pruebas.csv`.
+  Las mismas pruebas estan en la coleccion de Postman `postman/tienda.postman_collection.json`.
+- **Pruebas unitarias** (JUnit + Mockito, no ocupan base de datos):
+  ```
+  .\mvnw.cmd clean test
+  ```
